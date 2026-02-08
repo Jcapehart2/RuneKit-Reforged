@@ -1,28 +1,34 @@
 [tool.poetry]
 name = "runekit"
-version = "0.1.0"
-description = ""
+version = "0.2.0"
+description = "Alt1-compatible widget host for RuneScape 3 on Linux/macOS"
 authors = ["Your Name <you@example.com>"]
 license = "GPL"
 include = ["runekit/_resources.py"]
 
 [tool.poetry.dependencies]
-python = "^3.9,<3.10"
-requests = "^2.26.0"
-PySide2 = "^5.15.2"
-Pillow = "^8.3.1"
-sysv-ipc = [{ version="^1.1.0", platform="linux" }]
-xcffib = [{ version="^0.11.1", platform="linux" }]
-pyobjc-framework-Quartz = [{ version="7.3", platform="darwin" }]
-pyobjc-framework-ApplicationServices = [{ version="7.3", platform="darwin" }]
-pyobjc-framework-CoreText = [{ version="7.3", platform="darwin" }]
-click = "^8.0.1"
-psutil = "^5.8.0"
-opencv-python-headless = "^4.5.3.56"
+python = "^3.11"
+requests = "^2.31.0"
+PySide6 = "^6.6.0"
+PySide6-WebEngine = "^6.6.0"
+Pillow = "^10.2.0"
+numpy = ">=1.24.0"
+sysv-ipc = [{ version = "^1.1.0", platform = "linux" }]
+xcffib = [{ version = "^1.5.0", platform = "linux" }]
+pyobjc-framework-Quartz = [{ version = "^10.0", platform = "darwin" }]
+pyobjc-framework-ApplicationServices = [{ version = "^10.0", platform = "darwin" }]
+pyobjc-framework-CoreText = [{ version = "^10.0", platform = "darwin" }]
+click = "^8.1.0"
+psutil = "^5.9.0"
+opencv-python-headless = "^4.9.0"
 
-[tool.poetry.dev-dependencies]
-black = "^20.8b1"
-pyinstaller = [{ version="^4.5.1", platform="darwin" }]
+[tool.poetry.group.dev.dependencies]
+black = "^24.0"
+pyinstaller = [{ version = "^6.0", platform = "darwin" }]
 
 [tool.poetry.scripts]
 runekit = 'runekit.main:main'
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
