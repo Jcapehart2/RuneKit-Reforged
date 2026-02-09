@@ -3,7 +3,7 @@ LINUXDEPLOY ?= linuxdeploy-$(shell uname -m).AppImage
 dev: runekit/_resources.py
 
 runekit/_resources.py: resources.qrc $(wildcard runekit/**/*.js) $(wildcard runekit/**/*.png)
-	pyside2-rcc $< -o $@
+	pyside6-rcc $< -o $@
 
 # Sdist
 
@@ -25,12 +25,12 @@ dist/RuneKit.app.zip: dist/RuneKit.app
 
 # AppImage
 
-build/python3.9.7.AppImage:
+build/python3.11.AppImage:
 	mkdir build || true
-	wget https://github.com/niess/python-appimage/releases/download/python3.9/python3.9.7-cp39-cp39-manylinux1_x86_64.AppImage -O "$@"
+	wget https://github.com/niess/python-appimage/releases/download/python3.11/python3.11.7-cp311-cp311-manylinux2014_x86_64.AppImage -O "$@"
 	chmod +x "$@"
 
-build/appdir: build/python3.9.7.AppImage
+build/appdir: build/python3.11.AppImage
 	$< --appimage-extract
 	mv squashfs-root build/appdir
 

@@ -7,6 +7,6 @@ APPDIR="${APPDIR:-${here}}"
 
 # Export SSL certificate
 export SSL_CERT_FILE="${APPDIR}/opt/_internal/certs.pem"
-export PYTHONHOME="${APPDIR}/opt/python3.9"
+export PYTHONHOME="${APPDIR}/opt/python3.11"
 
 exec $APPDIR/usr/bin/runekit $@
