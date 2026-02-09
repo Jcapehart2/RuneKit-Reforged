@@ -8,3 +8,6 @@ __pycache__
 runekit/_resources.py
 *.AppImage
 *.pyo
+upstream-runekit/
+Prompts/
+.claude/

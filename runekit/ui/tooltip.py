@@ -1,8 +1,8 @@
 from typing import Union
 
-from PySide2.QtCore import Qt, QTimer, Slot
-from PySide2.QtGui import QCursor
-from PySide2.QtWidgets import QLabel, QMainWindow
+from PySide6.QtCore import Qt, QTimer, Slot
+from PySide6.QtGui import QCursor
+from PySide6.QtWidgets import QLabel, QMainWindow
 
 
 class TooltipManager(QMainWindow):
@@ -15,10 +15,10 @@ class TooltipManager(QMainWindow):
 
     def __init__(self):
         super().__init__(
-            flags=Qt.Popup
-            | Qt.FramelessWindowHint
-            | Qt.WindowStaysOnTopHint
-            | Qt.WindowTransparentForInput
+            flags=Qt.WindowType.Popup
+            | Qt.WindowType.FramelessWindowHint
+            | Qt.WindowType.WindowStaysOnTopHint
+            | Qt.WindowType.WindowTransparentForInput
         )
         self._layout()
         self.timer = QTimer(self)
@@ -28,7 +28,7 @@ class TooltipManager(QMainWindow):
 
     def _layout(self):
         self.label = QLabel(parent=self)
-        self.label.setMargin(12)
+        self.label.setContentsMargins(12, 12, 12, 12)
         self.setCentralWidget(self.label)
 
     def set_tooltip(self, text: Union[str, None]):

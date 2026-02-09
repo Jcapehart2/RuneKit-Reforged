@@ -2,8 +2,8 @@ import logging
 import time
 
 import numpy as np
-from PySide2.QtCore import QBuffer, QIODevice
-from PySide2.QtGui import QGuiApplication, QWindow, QPixmap
+from PySide6.QtCore import QBuffer, QIODevice
+from PySide6.QtGui import QGuiApplication, QWindow, QPixmap
 import cv2
 
 from runekit.image.np_utils import np_save_image
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 def qpixmap_to_np(im: QPixmap) -> np.ndarray:
     # from PIL.ImageQt.fromqimage
     buffer = QBuffer()
-    buffer.open(QIODevice.ReadWrite)
+    buffer.open(QIODevice.OpenModeFlag.ReadWrite)
     if im.hasAlphaChannel():
         im.save(buffer, "png")
     else:

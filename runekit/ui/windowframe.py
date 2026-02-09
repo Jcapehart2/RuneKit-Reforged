@@ -1,6 +1,6 @@
-from PySide2.QtCore import Signal, QPoint
-from PySide2.QtGui import QPixmap, Qt, QResizeEvent
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Signal, QPoint, Qt
+from PySide6.QtGui import QPixmap, QResizeEvent
+from PySide6.QtWidgets import (
     QWidget,
     QHBoxLayout,
     QVBoxLayout,
@@ -35,7 +35,6 @@ class WindowFrame(QWidget):
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setMargin(0)
         self.setLayout(layout)
         layout.addWidget(self._inner)
         self._buttons.show()
@@ -106,18 +105,18 @@ class _FrameInner(QWidget):
         layout.addLayout(top_row)
         top_row.setContentsMargins(0, 0, 0, 0)
         top_row.setSpacing(0)
-        top_row.addWidget(self.build_image("borderTL", Qt.TopEdge | Qt.LeftEdge))
-        top_row.addWidget(self.build_image("borderT", Qt.TopEdge, h_fix=False))
-        top_row.addWidget(self.build_image("borderTR", Qt.TopEdge | Qt.RightEdge))
+        top_row.addWidget(self.build_image("borderTL", Qt.Edge.TopEdge | Qt.Edge.LeftEdge))
+        top_row.addWidget(self.build_image("borderT", Qt.Edge.TopEdge, h_fix=False))
+        top_row.addWidget(self.build_image("borderTR", Qt.Edge.TopEdge | Qt.Edge.RightEdge))
 
         mid_row = QHBoxLayout()
         layout.addLayout(mid_row)
         mid_row.setContentsMargins(0, 0, 0, 0)
         mid_row.setSpacing(0)
-        mid_row.addWidget(self.build_image("borderL", Qt.LeftEdge, v_fix=False))
+        mid_row.addWidget(self.build_image("borderL", Qt.Edge.LeftEdge, v_fix=False))
         self.content = QWidget(self)
         mid_row.addWidget(self.content, 1)
-        mid_row.addWidget(self.build_image("borderR", Qt.RightEdge, v_fix=False))
+        mid_row.addWidget(self.build_image("borderR", Qt.Edge.RightEdge, v_fix=False))
 
         bot_row = QHBoxLayout()
         layout.addLayout(bot_row)
@@ -126,18 +125,18 @@ class _FrameInner(QWidget):
         bot_row.addWidget(
             self.build_image(
                 "borderBL",
-                Qt.BottomEdge | Qt.LeftEdge,
+                Qt.Edge.BottomEdge | Qt.Edge.LeftEdge,
             )
         )
-        bot_row.addWidget(self.build_image("borderB", Qt.BottomEdge, h_fix=False))
-        bot_row.addWidget(self.build_image("borderBR", Qt.BottomEdge | Qt.RightEdge))
+        bot_row.addWidget(self.build_image("borderB", Qt.Edge.BottomEdge, h_fix=False))
+        bot_row.addWidget(self.build_image("borderBR", Qt.Edge.BottomEdge | Qt.Edge.RightEdge))
 
     def build_image(self, name: str, edge=None, h_fix=True, v_fix=True):
         pixmap = QPixmap(SKIN + name)
         label = _ResizeHandle(edge, parent=self)
         label.setSizePolicy(
-            QSizePolicy.Fixed if h_fix else QSizePolicy.Preferred,
-            QSizePolicy.Fixed if v_fix else QSizePolicy.Preferred,
+            QSizePolicy.Policy.Fixed if h_fix else QSizePolicy.Policy.Preferred,
+            QSizePolicy.Policy.Fixed if v_fix else QSizePolicy.Policy.Preferred,
         )
         label.setScaledContents(True)
         label.setPixmap(pixmap)
@@ -166,26 +165,26 @@ class _WindowButtons(QWidget):
         layout.addStretch(1)
 
         drag_area = _DragHandle(self)
-        layout.addWidget(drag_area, alignment=Qt.AlignTop)
+        layout.addWidget(drag_area, alignment=Qt.AlignmentFlag.AlignTop)
 
         minimize_button = QPushButton(self)
         minimize_button.clicked.connect(self.on_minimize)
         minimize_button.setStyleSheet(
             self.button_style("minimize.png", "minimizeHover.png")
         )
-        layout.addWidget(minimize_button, alignment=Qt.AlignTop)
+        layout.addWidget(minimize_button, alignment=Qt.AlignmentFlag.AlignTop)
 
         # settings_button = QPushButton(self)
         # settings_button.clicked.connect(self.on_settings)
         # settings_button.setStyleSheet(
         #     self.button_style("settings.png", "settingsHover.png")
         # )
-        # layout.addWidget(settings_button, alignment=Qt.AlignTop)
+        # layout.addWidget(settings_button, alignment=Qt.AlignmentFlag.AlignTop)
 
         exit_button = QPushButton(self)
         exit_button.clicked.connect(self.on_exit)
         exit_button.setStyleSheet(self.button_style("exit.png", "exitHover.png"))
-        layout.addWidget(exit_button, alignment=Qt.AlignTop)
+        layout.addWidget(exit_button, alignment=Qt.AlignmentFlag.AlignTop)
 
     def button_style(self, normal, hover):
         return f"""
@@ -206,9 +205,9 @@ class _WindowButtons(QWidget):
 class _DragHandle(QLabel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.setPixmap(QPixmap(SKIN + "borderDrag.png"))
-        self.setCursor(Qt.OpenHandCursor)
+        self.setCursor(Qt.CursorShape.OpenHandCursor)
 
     def mousePressEvent(self, ev):
         self.window().windowHandle().startSystemMove()
@@ -219,22 +218,22 @@ class _ResizeHandle(QLabel):
         super().__init__(*args, **kwargs)
         self.edge = edge
 
-        if edge == Qt.TopEdge & Qt.LeftEdge:
-            self.setCursor(Qt.SizeFDiagCursor)
-        elif edge == Qt.TopEdge:
-            self.setCursor(Qt.SizeVerCursor)
-        elif edge == Qt.TopEdge & Qt.RightEdge:
-            self.setCursor(Qt.SizeBDiagCursor)
-        elif edge == Qt.LeftEdge:
-            self.setCursor(Qt.SizeHorCursor)
-        elif edge == Qt.RightEdge:
-            self.setCursor(Qt.SizeHorCursor)
-        elif edge == Qt.BottomEdge & Qt.LeftEdge:
-            self.setCursor(Qt.SizeBDiagCursor)
-        elif edge == Qt.BottomEdge:
-            self.setCursor(Qt.SizeVerCursor)
-        elif edge == Qt.BottomEdge & Qt.RightEdge:
-            self.setCursor(Qt.SizeFDiagCursor)
+        if edge == Qt.Edge.TopEdge & Qt.Edge.LeftEdge:
+            self.setCursor(Qt.CursorShape.SizeFDiagCursor)
+        elif edge == Qt.Edge.TopEdge:
+            self.setCursor(Qt.CursorShape.SizeVerCursor)
+        elif edge == Qt.Edge.TopEdge & Qt.Edge.RightEdge:
+            self.setCursor(Qt.CursorShape.SizeBDiagCursor)
+        elif edge == Qt.Edge.LeftEdge:
+            self.setCursor(Qt.CursorShape.SizeHorCursor)
+        elif edge == Qt.Edge.RightEdge:
+            self.setCursor(Qt.CursorShape.SizeHorCursor)
+        elif edge == Qt.Edge.BottomEdge & Qt.Edge.LeftEdge:
+            self.setCursor(Qt.CursorShape.SizeBDiagCursor)
+        elif edge == Qt.Edge.BottomEdge:
+            self.setCursor(Qt.CursorShape.SizeVerCursor)
+        elif edge == Qt.Edge.BottomEdge & Qt.Edge.RightEdge:
+            self.setCursor(Qt.CursorShape.SizeFDiagCursor)
 
     def mousePressEvent(self, ev):
         if self.edge:

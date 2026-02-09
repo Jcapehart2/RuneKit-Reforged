@@ -3,7 +3,7 @@ from typing import TypeVar
 
 import numpy as np
 from PIL import Image
-from PySide2.QtGui import QColor
+from PySide6.QtGui import QColor
 
 from runekit.game.instance import ImageType
 from runekit.image.np_utils import np_crop

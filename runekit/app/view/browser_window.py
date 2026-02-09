@@ -2,10 +2,11 @@ import logging
 import sys
 from typing import TYPE_CHECKING
 
-from PySide2.QtCore import Qt, Slot, QRect, QObject, QUrl
-from PySide2.QtGui import QIcon, QDesktopServices
-from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
-from PySide2.QtWidgets import QMainWindow
+from PySide6.QtCore import Qt, Slot, QRect, QObject, QUrl
+from PySide6.QtGui import QIcon, QDesktopServices
+from PySide6.QtWebEngineCore import QWebEnginePage
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWidgets import QMainWindow
 
 from runekit.browser import Alt1WebChannel
 from runekit.ui.game_snap import GameSnapMixin
@@ -29,11 +30,11 @@ class PageClass(QWebEnginePage):
     ):
         logger = self.logger.getChild(self.url().toString())
         log = logger.debug
-        if level == QWebEnginePage.InfoMessageLevel:
+        if level == QWebEnginePage.JavaScriptConsoleMessageLevel.InfoMessageLevel:
             log = logger.debug
-        elif level == QWebEnginePage.WarningMessageLevel:
+        elif level == QWebEnginePage.JavaScriptConsoleMessageLevel.WarningMessageLevel:
             log = logger.warning
-        elif level == QWebEnginePage.ErrorMessageLevel:
+        elif level == QWebEnginePage.JavaScriptConsoleMessageLevel.ErrorMessageLevel:
             log = logger.error
         log("%s", message)
 
@@ -42,18 +43,6 @@ class PageClass(QWebEnginePage):
     ) -> bool:
         if not is_main_frame:
             return super().acceptNavigationRequest(url, type_, is_main_frame)
-
-        # This breaks AFK Warden popups
-        # if (
-        #     type_ != QWebEnginePage.NavigationTypeTyped
-        #     and url.authority() != self.url().authority()
-        # ):
-        #     # The web is only allowed pages on the same origin
-        #     # Cross origin pages would open in browser
-        #     if url.scheme() in ("http", "https"):
-        #         QDesktopServices.openUrl(url)
-
-        #     return False
 
         return super().acceptNavigationRequest(url, type_, is_main_frame)
 
@@ -69,14 +58,14 @@ class BrowserWindow(GameSnapMixin, QMainWindow):
         self.app = app
 
         if self.framed:
-            self.setAttribute(Qt.WA_TranslucentBackground)
+            self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
             self.frame = WindowFrame(parent=self)
             self.frame.on_exit.connect(self.close)
             self.setCentralWidget(self.frame)
 
         self._setup_browser()
         self.setWindowTitle(self.app.manifest["appName"])
-        self.setAttribute(Qt.WA_DeleteOnClose)
+        self.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
 
     def _setup_browser(self):
         self.browser = BrowserView(self)
@@ -111,23 +100,22 @@ class BrowserWindow(GameSnapMixin, QMainWindow):
 
     @Slot(QUrl, QWebEnginePage.Feature)
     def on_permission_request(self, origin: QUrl, feature: QWebEnginePage.Feature):
-        if feature == QWebEnginePage.Notifications and self.app.has_permission(
+        if feature == QWebEnginePage.Feature.Notifications and self.app.has_permission(
             "overlay"
         ):
-            # FIXME: This doesn't really work - PySide2 doesn't have QWebEngineNotification
             self.browser.page().setFeaturePermission(
-                origin, feature, QWebEnginePage.PermissionGrantedByUser
+                origin, feature, QWebEnginePage.PermissionPolicy.GrantedByUser
             )
         elif (
-            feature in (QWebEnginePage.DesktopVideoCapture, QWebEnginePage.DesktopAudioVideoCapture)
+            feature in (QWebEnginePage.Feature.DesktopVideoCapture, QWebEnginePage.Feature.DesktopAudioVideoCapture)
             and self.app.has_permission('pixel')
         ):
             self.browser.page().setFeaturePermission(
-                origin, feature, QWebEnginePage.PermissionGrantedByUser
+                origin, feature, QWebEnginePage.PermissionPolicy.GrantedByUser
             )
         else:
             self.browser.page().setFeaturePermission(
-                origin, feature, QWebEnginePage.PermissionDeniedByUser
+                origin, feature, QWebEnginePage.PermissionPolicy.DeniedByUser
             )
 
 

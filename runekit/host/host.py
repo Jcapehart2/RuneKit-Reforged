@@ -1,8 +1,8 @@
 import logging
 from typing import TYPE_CHECKING, List
 
-from PySide2.QtCore import Slot, QCoreApplication
-from PySide2.QtWidgets import QMessageBox
+from PySide6.QtCore import Slot, QCoreApplication
+from PySide6.QtWidgets import QMessageBox
 
 from runekit.alt1.schema import AppManifest
 from runekit.alt1.utils import fetch_bom_json

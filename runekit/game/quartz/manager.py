@@ -4,9 +4,9 @@ from typing import List, Dict, Optional, Union
 
 import Quartz
 import ApplicationServices
-from PySide2.QtCore import QTimer, Signal, Slot
-from PySide2.QtGui import QDesktopServices
-from PySide2.QtWidgets import QMessageBox
+from PySide6.QtCore import QTimer, Signal, Slot
+from PySide6.QtGui import QDesktopServices
+from PySide6.QtWidgets import QMessageBox
 
 from .instance import QuartzGameInstance
 from runekit.game.overlay import DesktopWideOverlay
@@ -144,14 +144,14 @@ class QuartzGameManager(GameManager):
 
         has_prompted_accessibility = True
         msgbox = QMessageBox(
-            QMessageBox.Warning,
+            QMessageBox.Icon.Warning,
             "Permission required",
             "RuneKit needs Screen Recording permission\n\nOpen System Preferences > Security > Privacy > Screen Recording to allow this",
-            QMessageBox.Open | QMessageBox.Ignore,
+            QMessageBox.StandardButton.Open | QMessageBox.StandardButton.Ignore,
         )
         button = msgbox.exec()
 
-        if button == QMessageBox.Open:
+        if button == QMessageBox.StandardButton.Open:
             QDesktopServices.openUrl(
                 "x-apple.systempreferences:com.apple.preference.security?Privacy_Screen Recording"
             )

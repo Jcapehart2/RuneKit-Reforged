@@ -4,8 +4,8 @@ import sys
 import traceback
 
 import click
-from PySide2.QtCore import QSettings, Qt, QTimer
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QSettings, Qt, QTimer
+from PySide6.QtWidgets import (
     QApplication,
     QMessageBox,
 )
@@ -42,7 +42,7 @@ def main(app_url, game_index, qt_args):
     timer.start(300)
     timer.timeout.connect(lambda: None)
 
-    QSettings.setDefaultFormat(QSettings.IniFormat)
+    QSettings.setDefaultFormat(QSettings.Format.IniFormat)
 
     try:
         game_manager = get_platform_manager()
@@ -50,7 +50,7 @@ def main(app_url, game_index, qt_args):
 
         if app_url == "settings":
             host.open_settings()
-            host.setting_dialog.setAttribute(Qt.WA_DeleteOnClose)
+            host.setting_dialog.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
             host.setting_dialog.destroyed.connect(app.quit)
         elif app_url:
             logging.info("Loading app")
@@ -60,16 +60,16 @@ def main(app_url, game_index, qt_args):
             if not host.app_store.has_default_apps():
                 host.app_store.load_default_apps()
 
-        app.exec_()
+        app.exec()
         sys.exit(0)
     except Exception as e:
         msg = QMessageBox(
-            QMessageBox.Critical,
+            QMessageBox.Icon.Critical,
             "Oh No!",
             f"Fatal error: \n\n{e.__class__.__name__}: {e}",
         )
         msg.setDetailedText(traceback.format_exc())
-        msg.exec_()
+        msg.exec()
 
         raise
     finally:

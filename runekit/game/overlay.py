@@ -2,9 +2,9 @@ import logging
 from typing import TYPE_CHECKING, Callable, Tuple, Dict
 
 import numpy as np
-from PySide2.QtCore import Qt, QRect, QTimer
-from PySide2.QtGui import QGuiApplication, QPen
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, QRect, QTimer
+from PySide6.QtGui import QGuiApplication, QPen
+from PySide6.QtWidgets import (
     QMainWindow,
     QGraphicsView,
     QGraphicsScene,
@@ -26,16 +26,16 @@ class DesktopWideOverlay(QMainWindow):
 
     def __init__(self):
         super().__init__(
-            flags=Qt.Widget
-            | Qt.FramelessWindowHint
-            | Qt.BypassWindowManagerHint
-            | Qt.WindowTransparentForInput
-            | Qt.WindowStaysOnTopHint
+            flags=Qt.WindowType.Widget
+            | Qt.WindowType.FramelessWindowHint
+            | Qt.WindowType.BypassWindowManagerHint
+            | Qt.WindowType.WindowTransparentForInput
+            | Qt.WindowType.WindowStaysOnTopHint
         )
         self.logger = logging.getLogger(__name__ + "." + self.__class__.__name__)
-        self.setAttribute(Qt.WA_NoSystemBackground, True)
-        self.setAttribute(Qt.WA_TranslucentBackground, True)
-        self.setAttribute(Qt.WA_DeleteOnClose, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose, True)
         self.setStyleSheet("background: transparent")
         self._instances = {}
 
@@ -51,14 +51,14 @@ class DesktopWideOverlay(QMainWindow):
         )
 
         self.view = QGraphicsView(self.scene, self)
-        self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.view.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.view.setStyleSheet("background: transparent")
         self.view.setGeometry(0, 0, virtual_screen.width(), virtual_screen.height())
         self.view.setInteractive(False)
 
         self.transparent_pen = QPen()
-        self.transparent_pen.setBrush(Qt.NoBrush)
+        self.transparent_pen.setBrush(Qt.BrushStyle.NoBrush)
 
         self.setGeometry(virtual_screen)
 

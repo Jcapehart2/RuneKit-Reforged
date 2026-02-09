@@ -1,7 +1,7 @@
 import abc
 from typing import List, Union
 
-from PySide2.QtCore import QObject, Property, Signal
+from PySide6.QtCore import QObject, Property, Signal
 
 from .instance import GameInstance
 

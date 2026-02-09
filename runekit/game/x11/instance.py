@@ -4,9 +4,9 @@ from typing import TYPE_CHECKING, List, Union
 
 import xcffib.composite
 import xcffib.xproto
-from PySide2.QtCore import QRect, Signal, Slot
-from PySide2.QtGui import QWindow, QGuiApplication
-from PySide2.QtWidgets import QGraphicsItem
+from PySide6.QtCore import QRect, Signal, Slot
+from PySide6.QtGui import QWindow, QGuiApplication
+from PySide6.QtWidgets import QGraphicsItem
 
 from runekit.game.instance import GameInstance
 from runekit.game.psutil_mixins import PsUtilNetStat

@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING
 
-from PySide2.QtCore import Slot, Signal, QCoreApplication
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QSystemTrayIcon, QMenu
+from PySide6.QtCore import Slot, Signal, QCoreApplication
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QSystemTrayIcon, QMenu
 
 if TYPE_CHECKING:
     from runekit.host import Host

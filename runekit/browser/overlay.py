@@ -5,9 +5,9 @@ import hashlib
 import logging
 from typing import List, Dict, Tuple, Optional, TYPE_CHECKING
 
-from PySide2.QtCore import QObject, QTimer, Qt
-from PySide2.QtGui import QFont, QPen, QImage, QPixmap
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QObject, QTimer, Qt
+from PySide6.QtGui import QFont, QPen, QImage, QPixmap
+from PySide6.QtWidgets import (
     QGraphicsItem,
     QGraphicsDropShadowEffect,
     QGraphicsTextItem,
@@ -231,7 +231,7 @@ class OverlayApi(QObject):
             font_name = "Verdana"
 
         font = QFont(font_name, min(50, size))
-        font.setStyleHint(QFont.SansSerif)
+        font.setStyleHint(QFont.StyleHint.SansSerif)
         gfx.setFont(font)
 
         if shadow:
@@ -267,4 +267,4 @@ class OverlayApi(QObject):
     @functools.lru_cache(100)
     def get_qimage(self, img: bytes, width: int):
         height = len(img) / width / 4
-        return QImage(img, width, height, QImage.Format_ARGB32)
+        return QImage(img, width, height, QImage.Format.Format_ARGB32)

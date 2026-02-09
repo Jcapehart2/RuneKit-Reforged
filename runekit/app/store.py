@@ -8,7 +8,7 @@ from typing import Iterator, Tuple, Optional, Union, List
 from urllib.parse import urljoin
 
 import requests
-from PySide2.QtCore import (
+from PySide6.QtCore import (
     QObject,
     QSettings,
     QThread,
@@ -16,8 +16,8 @@ from PySide2.QtCore import (
     Slot,
     QStandardPaths,
 )
-from PySide2.QtGui import QIcon, QPixmap
-from PySide2.QtWidgets import QProgressDialog, QMessageBox
+from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtWidgets import QProgressDialog, QMessageBox
 
 from runekit.alt1.schema import AppManifest
 from runekit.alt1.utils import fetch_bom_json
@@ -108,7 +108,7 @@ class AppStore(QObject):
         self.settings = QSettings(self)
 
         qt_write_base = Path(
-            QStandardPaths.writableLocation(QStandardPaths.AppConfigLocation)
+            QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppConfigLocation)
         )
         qt_write_base.mkdir(parents=True, exist_ok=True)
 
@@ -152,12 +152,12 @@ class AppStore(QObject):
 
         def on_failed(exc_info):
             msg = QMessageBox(
-                QMessageBox.Critical,
+                QMessageBox.Icon.Critical,
                 "Fail to add application",
                 f"Failed to add application: \n\n{exc_info[0].__name__}: {exc_info[1]}",
             )
             msg.setDetailedText("".join(traceback.format_exception(*exc_info)))
-            msg.exec_()
+            msg.exec()
 
         self.app_progress = QProgressDialog("Installing app", "Cancel", 0, 100)
 
@@ -170,7 +170,7 @@ class AppStore(QObject):
         self.app_progress.canceled.connect(self.add_app_thread.cancel)
         self.add_app_thread.start()
 
-        self.app_progress.exec_()
+        self.app_progress.exec()
 
     def add_app(self, manifest_url: str, manifest: AppManifest):
         appid = app_id(manifest_url)
@@ -293,7 +293,7 @@ class AppStore(QObject):
 
     def icon(self, appid: str) -> Optional[QIcon]:
         fn = QStandardPaths.locate(
-            QStandardPaths.AppConfigLocation, "app_icons/" + appid + ".png"
+            QStandardPaths.StandardLocation.AppConfigLocation, "app_icons/" + appid + ".png"
         )
         if fn == "":
             return None

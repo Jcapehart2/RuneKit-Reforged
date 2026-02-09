@@ -1,8 +1,8 @@
 import abc
 from typing import Union, Dict
 
-from PySide2.QtCore import QObject, QSettings
-from PySide2.QtWidgets import QSystemTrayIcon
+from PySide6.QtCore import QObject, QSettings
+from PySide6.QtWidgets import QSystemTrayIcon
 
 from .tooltip import TooltipManager
 from .tray import tray_icon

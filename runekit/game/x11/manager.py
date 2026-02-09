@@ -9,7 +9,7 @@ import xcffib.composite
 import xcffib.shm
 import xcffib.xinput
 import xcffib.xproto
-from PySide2.QtCore import QThread, Slot, QObject, Signal
+from PySide6.QtCore import QThread, Slot, QObject, Signal
 
 from runekit.game import GameManager
 from .instance import GameInstance, X11GameInstance

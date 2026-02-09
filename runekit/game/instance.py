@@ -4,9 +4,9 @@ from typing import TYPE_CHECKING, Literal, Optional, Union
 
 import numpy as np
 from PIL import Image
-from PySide2.QtCore import QObject, Signal, Property, QRect, Slot
-from PySide2.QtGui import QWindow
-from PySide2.QtWidgets import QGraphicsItem
+from PySide6.QtCore import QObject, Signal, Property, QRect, Slot
+from PySide6.QtGui import QWindow
+from PySide6.QtWidgets import QGraphicsItem
 
 from runekit.image.np_utils import np_crop
 

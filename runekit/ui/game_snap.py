@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
-from PySide2.QtCore import QRect
-from PySide2.QtWidgets import QMainWindow
+from PySide6.QtCore import QRect
+from PySide6.QtWidgets import QMainWindow
 
 if TYPE_CHECKING:
     from runekit.app import App

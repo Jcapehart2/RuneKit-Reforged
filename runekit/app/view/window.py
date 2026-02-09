@@ -2,8 +2,8 @@ import logging
 import sys
 from typing import Optional
 
-from PySide2.QtCore import QSize, Qt, QThreadPool, QSettings
-from PySide2.QtGui import QIcon
+from PySide6.QtCore import QSize, Qt, QThreadPool, QSettings
+from PySide6.QtGui import QIcon
 
 from runekit.app.view.browser_window import BrowserWindow
 
@@ -19,9 +19,9 @@ class AppWindow(BrowserWindow):
         self.settings.setParent(self)
 
         # TODO: Hide from taskbar/group this as part of one big window?
-        flags = Qt.NoDropShadowWindowHint | Qt.WindowStaysOnTopHint | Qt.Window
+        flags = Qt.WindowType.NoDropShadowWindowHint | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.Window
         if self.framed:
-            flags |= Qt.CustomizeWindowHint
+            flags |= Qt.WindowType.CustomizeWindowHint
         self.setWindowFlags(flags)
 
         self.pool = QThreadPool(parent=self)

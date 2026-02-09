@@ -1,4 +1,4 @@
-from PySide2.QtWebEngineCore import (
+from PySide6.QtWebEngineCore import (
     QWebEngineUrlScheme,
 )
 
@@ -11,9 +11,9 @@ class RuneKitScheme(QWebEngineUrlScheme):
         self.setSyntax(QWebEngineUrlScheme.Syntax.Path)
         self.setDefaultPort(QWebEngineUrlScheme.PortUnspecified)
         self.setFlags(
-            QWebEngineUrlScheme.SecureScheme
-            | QWebEngineUrlScheme.ContentSecurityPolicyIgnored
-            | QWebEngineUrlScheme.CorsEnabled
+            QWebEngineUrlScheme.Flag.SecureScheme
+            | QWebEngineUrlScheme.Flag.ContentSecurityPolicyIgnored
+            | QWebEngineUrlScheme.Flag.CorsEnabled
         )
 
 

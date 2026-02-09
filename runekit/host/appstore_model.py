@@ -2,8 +2,8 @@ import typing
 import json
 from typing import Optional, TypedDict, Union, List
 
-from PySide2.QtCore import QAbstractItemModel, Qt, QModelIndex, QMimeData
-from PySide2.QtGui import QIcon
+from PySide6.QtCore import QAbstractItemModel, Qt, QModelIndex, QMimeData
+from PySide6.QtGui import QIcon
 
 from runekit.alt1.schema import AppManifest
 from runekit.app import AppStore
@@ -77,23 +77,23 @@ class AppStoreModel(QAbstractItemModel):
 
         if "data" not in app:
             # Folder
-            if role == Qt.DisplayRole:
+            if role == Qt.ItemDataRole.DisplayRole:
                 if col == 0:
                     return app["id"]
-            elif role == Qt.DecorationRole:
+            elif role == Qt.ItemDataRole.DecorationRole:
                 if col == 0:
                     return QIcon.fromTheme("folder")
 
             return None
 
-        if role in (Qt.DisplayRole, Qt.ToolTipRole):
+        if role in (Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.ToolTipRole):
             if col == 0:
                 return app["data"]["appName"]
             elif col == 1:
                 return app["data"]["appUrl"]
             elif col == 2:
                 return app["data"]["description"]
-        elif role == Qt.DecorationRole and col == 0:
+        elif role == Qt.ItemDataRole.DecorationRole and col == 0:
             return self.store.icon(app["id"])
         else:
             return None
@@ -126,24 +126,24 @@ class AppStoreModel(QAbstractItemModel):
         return data["parent"] or QModelIndex()
 
     def flags(self, index: QModelIndex) -> Qt.ItemFlags:
-        out = Qt.ItemIsSelectable | Qt.ItemIsEnabled
+        out = Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled
 
         if not index.isValid():
-            return out | Qt.ItemIsDropEnabled
+            return out | Qt.ItemFlag.ItemIsDropEnabled
 
         data = typing.cast(_InternalData, index.internalPointer())
         if "data" in data:
-            out |= Qt.ItemIsDragEnabled
+            out |= Qt.ItemFlag.ItemIsDragEnabled
         else:
             # Can't drag folder but can drop
-            out |= Qt.ItemIsDropEnabled
+            out |= Qt.ItemFlag.ItemIsDropEnabled
         if "children" not in data:
-            out |= Qt.ItemNeverHasChildren
+            out |= Qt.ItemFlag.ItemNeverHasChildren
 
         return out
 
     def headerData(self, section: int, orientation: Qt.Orientation, role: int):
-        if role != Qt.DisplayRole:
+        if role != Qt.ItemDataRole.DisplayRole:
             return None
         if orientation != Qt.Orientation.Horizontal:
             return None
@@ -151,7 +151,7 @@ class AppStoreModel(QAbstractItemModel):
         return self.h_columns[section]
 
     def supportedDropActions(self) -> Qt.DropActions:
-        return Qt.MoveAction
+        return Qt.DropAction.MoveAction
 
     def mimeData(self, indexes: List[QModelIndex]) -> QMimeData:
         indexes = [item for item in indexes if item.column() == 0]

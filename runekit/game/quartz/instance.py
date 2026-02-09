@@ -6,10 +6,10 @@ from typing import TYPE_CHECKING
 import Quartz
 import objc
 from PIL import Image
-from PySide2.QtCore import QRect
-from PySide2.QtGui import QGuiApplication
+from PySide6.QtCore import QRect
+from PySide6.QtGui import QGuiApplication
 import ApplicationServices
-from PySide2.QtWidgets import QGraphicsItem
+from PySide6.QtWidgets import QGraphicsItem
 
 from ..instance import GameInstance
 from ..psutil_mixins import PsUtilNetStat

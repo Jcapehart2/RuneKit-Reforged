@@ -2,9 +2,9 @@ import json
 import sys
 from typing import TYPE_CHECKING
 
-from PySide2.QtCore import QSize, Qt, Slot, QTimer, QSettings
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QSize, Qt, Slot, QTimer, QSettings
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import (
     QTabWidget,
     QVBoxLayout,
     QMainWindow,
@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 
 class SettingsDialog(QMainWindow):
     def __init__(self, host: "Host", **kwargs):
-        super().__init__(flags=Qt.Dialog, **kwargs)
+        super().__init__(flags=Qt.WindowType.Dialog, **kwargs)
         self.host = host
         self._layout()
         self.setWindowTitle("RuneKit Settings")
@@ -67,12 +67,12 @@ class ApplicationPage(QWidget):
         self.tree.setUniformRowHeights(True)
         self.tree.setColumnWidth(0, 200)
         self.tree.setDragEnabled(True)
-        self.tree.setDragDropMode(QAbstractItemView.InternalMove)
+        self.tree.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
         self.tree.viewport().setAcceptDrops(True)
         layout.addWidget(self.tree, 1)
 
         buttons = QVBoxLayout()
-        buttons.setAlignment(Qt.AlignTop)
+        buttons.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         add_button = QPushButton(QIcon.fromTheme("list-add"), "", self)
         add_button.setToolTip("Add application")
@@ -95,7 +95,7 @@ class ApplicationPage(QWidget):
         dialog = QInputDialog(self)
         dialog.setLabelText("Enter appconfig.json URL")
 
-        if dialog.exec_() == QInputDialog.Rejected:
+        if dialog.exec() == QInputDialog.DialogCode.Rejected:
             return
 
         app_url = dialog.textValue().strip()
@@ -105,7 +105,7 @@ class ApplicationPage(QWidget):
         dialog = QInputDialog(self)
         dialog.setLabelText("Directory name")
 
-        if dialog.exec_() == QInputDialog.Rejected:
+        if dialog.exec() == QInputDialog.DialogCode.Rejected:
             return
 
         dirname = dialog.textValue().strip()
@@ -217,5 +217,5 @@ class InterfacePage(QWidget):
 
     @Slot(int)
     def on_change_styled_border(self, state: int):
-        checked = state == Qt.Checked
+        checked = state == Qt.CheckState.Checked.value
         self.settings.setValue("settings/styledBorder", checked)
