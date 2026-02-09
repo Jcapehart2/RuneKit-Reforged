@@ -8,14 +8,28 @@ Reforged from the original [whs/runekit](https://github.com/whs/runekit) which w
 
 ---
 
+## Download
+
+Pre-built binaries are available from the [continuous release](https://github.com/Jcapehart2/RuneKit-Reforged/releases/tag/continuous), automatically built from the latest commit on `main`:
+
+| Platform | Download | Instructions |
+|---|---|---|
+| **Linux** | [RuneKit.AppImage](https://github.com/Jcapehart2/RuneKit-Reforged/releases/download/continuous/RuneKit.AppImage) | `chmod +x RuneKit.AppImage` then run it |
+| **macOS** | [RuneKit.app.zip](https://github.com/Jcapehart2/RuneKit-Reforged/releases/download/continuous/RuneKit.app.zip) | Unzip, open the app, grant Accessibility + Screen Recording permissions when prompted |
+
+> **macOS note:** Mac support is experimental and untested. See [macOS Support (Experimental)](#macos-support-experimental) below. Please [report issues](https://github.com/Jcapehart2/RuneKit-Reforged/issues) if something doesn't work.
+
+---
+
 ## What You Need
 
 | Requirement | Details |
 |---|---|
-| **OS** | Linux (X11) |
+| **OS** | Linux (X11) — primary target |
+| **macOS** | macOS 14+ (experimental, untested — Accessibility + Screen Recording permissions required) |
 | **Python** | 3.11, 3.12, 3.13, or 3.14 |
 | **RuneScape 3** | Official client must be **running** before you start RuneKit |
-| **Display server** | X11 required (Wayland is not supported) |
+| **Display server** | X11 required on Linux (Wayland is not supported) |
 
 ---
 
@@ -90,6 +104,43 @@ After initial setup, you can use the included launcher script:
 ```
 
 This script checks for dependencies and launches RuneKit. You can double-click it in your file manager too (make sure it's marked executable with `chmod +x RuneKit.sh`).
+
+---
+
+## macOS Quick Start (Building from Source)
+
+> **Note:** Mac support is experimental. If you just want to try it, download the [pre-built app](#download) instead.
+
+### Step 1: Install Homebrew dependencies
+
+```sh
+brew install python@3.13 poetry
+```
+
+### Step 2: Clone and install
+
+```sh
+git clone https://github.com/Jcapehart2/RuneKit-Reforged.git
+cd RuneKit-Reforged
+poetry install
+```
+
+### Step 3: Build resources
+
+```sh
+poetry run make dev
+```
+
+### Step 4: Launch
+
+1. **Start RuneScape 3 first**
+2. Then run:
+
+```sh
+poetry run python main.py
+```
+
+3. When prompted, grant **Accessibility** and **Screen Recording** permissions in System Settings
 
 ---
 
@@ -205,7 +256,11 @@ poetry run make dist/RuneKit.AppImage
 
 ## macOS Support (Experimental)
 
-The codebase includes macOS support inherited from the original RuneKit project, but it has **not been tested** after the Qt6 migration. If you're on macOS and want to try it, contributions and bug reports are welcome.
+The codebase includes macOS support inherited from the original RuneKit project, but it has **not been tested** since the Qt6 migration. Things may be broken.
+
+- The maintainer does not have a Mac, so issues can't be diagnosed without your help
+- If something doesn't work, please [open a GitHub Issue](https://github.com/Jcapehart2/RuneKit-Reforged/issues/new) with details about what happened and your macOS version
+- Contributions and pull requests for macOS fixes are very welcome
 
 ---
 
