@@ -56,7 +56,7 @@ Then restart your terminal or run `source ~/.bashrc`.
 
 ```sh
 git clone https://github.com/Jcapehart2/RuneKit-Reforged.git
-cd runekit-reforged
+cd RuneKit-Reforged
 poetry install
 ```
 
