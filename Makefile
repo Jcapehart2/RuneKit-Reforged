@@ -39,7 +39,7 @@ dist/RuneKit.AppImage: dist/runekit.tar.gz build/appdir deploy/runekit-appimage.
 	rm $(wildcard build/appdir/*.desktop) $(wildcard build/appdir/usr/share/applications/*.desktop) $(wildcard build/appdir/usr/share/metainfo/*)
 	cp deploy/RuneKit.desktop build/appdir/
 	cp deploy/RuneKit.desktop build/appdir/usr/share/applications/
-	cp deploy/RuneKit.appdata.xml build/appdir/usr/share/metainfo/
+	cp deploy/de.cupco.runekit.metainfo.xml build/appdir/usr/share/metainfo/
 	cp deploy/runekit-appimage.sh build/appdir/AppRun
 	$(LINUXDEPLOY) --appdir build/appdir --output appimage
 	cp RuneKit-*.AppImage "$@"

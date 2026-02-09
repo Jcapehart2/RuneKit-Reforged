@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
     <id>de.cupco.runekit</id>
-    <metadata_license>GPL-3.0-or-later</metadata_license>
+    <metadata_license>FSFAP</metadata_license>
     <project_license>GPL-3.0-or-later</project_license>
     <name>RuneKit Reforged</name>
     <summary>Alt1-compatible toolkit for RuneScape 3 on Linux</summary>
