@@ -27,7 +27,7 @@ dist/RuneKit.app.zip: dist/RuneKit.app
 
 build/python3.11.AppImage:
 	mkdir build || true
-	wget https://github.com/niess/python-appimage/releases/download/python3.11/python3.11.7-cp311-cp311-manylinux2014_x86_64.AppImage -O "$@"
+	wget https://github.com/niess/python-appimage/releases/download/python3.11/python3.11.14-cp311-cp311-manylinux2014_x86_64.AppImage -O "$@"
 	chmod +x "$@"
 
 build/appdir: build/python3.11.AppImage

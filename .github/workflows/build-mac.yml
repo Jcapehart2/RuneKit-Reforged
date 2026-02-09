@@ -1,5 +1,6 @@
 name: Mac
-on: [push]
+on:
+  workflow_dispatch:
 jobs:
   build:
     runs-on: macos-14
