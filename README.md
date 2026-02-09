@@ -112,6 +112,15 @@ You can also load any custom Alt1 app by URL:
 poetry run python main.py https://runeapps.org/apps/alt1/afkscape/appconfig.json
 ```
 
+Or add apps through the Settings UI:
+
+1. Right-click the system tray icon and open **Settings**
+2. Go to the **Applications** tab
+3. Click the **+** button
+4. Paste the app's `appconfig.json` URL (e.g. `https://runeapps.org/apps/alt1/afkscape/appconfig.json`)
+
+> **Note:** `alt1://addapp/` links (used on runeapps.org to install apps with one click) are not currently supported. If a website gives you an `alt1://` link, copy the URL from the link, strip the `alt1://addapp/` prefix, and paste the remaining `appconfig.json` URL into the Settings dialog instead.
+
 ---
 
 ## Troubleshooting

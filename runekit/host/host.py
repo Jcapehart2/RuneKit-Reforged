@@ -113,4 +113,4 @@ class Host:
                     app.manifest["appName"],
                 )
                 app.close()
-            self.open_app.remove(app)
+                self.open_app.remove(app)

@@ -28,13 +28,14 @@ class App:
         self.source_url = source_url
 
     def close(self):
-        if self.window:
+        from shiboken6 import isValid
+        if self.window and isValid(self.window):
             self.window.deleteLater()
             self.window = None
-        if self.alt1api:
+        if self.alt1api and isValid(self.alt1api):
             self.alt1api.deleteLater()
             self.alt1api = None
-        if self.web_profile:
+        if self.web_profile and isValid(self.web_profile):
             self.web_profile.deleteLater()
             self.web_profile = None
 
