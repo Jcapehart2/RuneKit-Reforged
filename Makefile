@@ -17,7 +17,10 @@ dist/RuneKit.app: RuneKit.spec main.py poetry.lock runekit/_resources.py $(wildc
 	pyinstaller --noconfirm $<
 
 dist/RuneKit.app.zip: dist/RuneKit.app
-	cd dist; zip -r -9 RuneKit.app.zip RuneKit.app
+	# Use ditto on macOS to preserve symlinks (critical for PyInstaller 6.0+ bundles)
+	# PyInstaller uses symlinks to avoid duplicating frameworks - if symlinks aren't preserved,
+	# the bundle can expand from ~300MB to 3GB+ due to framework duplication
+	cd dist; ditto -c -k --sequesterRsrc --keepParent RuneKit.app RuneKit.app.zip
 
 # AppImage
 
